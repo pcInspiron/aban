@@ -1,198 +1,258 @@
- 
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="rtl" lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <title>سریال آبان - تم تیره پیشرفته</title>
-    <style>
-        :root {
-            --primary-blue: #4d8bf0; /* آبی ملایم */
-            --primary-red: #f05454; /* قرمز ملایم */
-            --background: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #ffffff; /* سفید خالص */
-            --button-bg: #2a2a2a; /* روشن‌تر از پس‌زمینه */
-            --hover-effect: rgba(77, 139, 240, 0.2);
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: var(--background);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: var(--primary-blue);
-            text-align: center;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-blue);
-        }
-        
-        .episode-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .episode {
-            background: var(--button-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 1px solid #333;
-        }
-        
-        .episode:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-            background: #333333;
-        }
-        
-        .episode a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        
-        .episode-number {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
-            color: white;
-            width: 28px;
-            height: 28px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin-left: 10px;
-            font-size: 14px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #777;
-            font-size: 14px;
-        }
-        
-        @media (max-width: 600px) {
-            .episode-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>سریال آبان - پخش آنلاین</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e1e1e;
+      --accent: #f39c12;
+      --bg: #111;
+      --text: #f4f4f4;
+      --muted: #aaa;
+      --card: #1a1a1a;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .main-header {
+      background: var(--primary);
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--accent);
+      border-bottom: 1px solid #222;
+    }
+
+    .episode-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .episode {
+      background: var(--card);
+      padding: 16px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .episode:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .episode-number {
+      background: var(--accent);
+      color: #000;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    .episode-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .episode-meta {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .episode a {
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .video-player-wrapper {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+      animation: fadeSlide 0.5s ease forwards;
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    .video-player-wrapper.active {
+      display: flex;
+      animation: fadeSlide 0.5s ease forwards;
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: var(--accent);
+    }
+
+    .player-header .center {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .video-meta {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .video-meta a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 40px;
+      padding: 20px;
+    }
+
+    .footer .social {
+      margin-top: 10px;
+    }
+
+    .footer .social a {
+      margin: 0 10px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer .social img {
+      width: 18px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    @keyframes fadeSlide {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>🎬 سریال آبان - لیست کامل قسمتها</h1>
-    
-    <div class="episode-container">
-        <!-- قسمت 1 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E01.mp4" target="_blank">
-                <span class="episode-number">1</span>
-                قسمت اول
-            </a>
-        </div>
 
-        <!-- قسمت 2 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E02.mp4" target="_blank">
-                <span class="episode-number">2</span>
-                قسمت دوم
-            </a>
-        </div>
+  <div class="main-header">فصل اول سریال آبان</div>
 
-        <!-- قسمت 3 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E03.mp4" target="_blank">
-                <span class="episode-number">3</span>
-                قسمت سوم
-            </a>
-        </div>
+  <div class="episode-container" id="episodeList"></div>
 
-        <!-- قسمت 4 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E04.mp4" target="_blank">
-                <span class="episode-number">4</span>
-                قسمت چهارم
-            </a>
-        </div>
-
-        <!-- قسمت 5 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E05.mp4" target="_blank">
-                <span class="episode-number">5</span>
-                قسمت پنجم
-            </a>
-        </div>
-
-        <!-- قسمت 6 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E06.mp4" target="_blank">
-                <span class="episode-number">6</span>
-                قسمت ششم
-            </a>
-        </div>
-
-        <!-- قسمت 7 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E07.mp4" target="_blank">
-                <span class="episode-number">7</span>
-                قسمت هفتم
-            </a>
-        </div>
-
-        <!-- قسمت 8 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E08.mp4" target="_blank">
-                <span class="episode-number">8</span>
-                قسمت هشتم
-            </a>
-        </div>
-
-        <!-- قسمت 9 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E09.mp4" target="_blank">
-                <span class="episode-number">9</span>
-                قسمت نهم
-            </a>
-        </div>
-
-        <!-- قسمت 10 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E10.mp4" target="_blank">
-                <span class="episode-number">10</span>
-                قسمت دهم
-            </a>
-        </div>
-
-        <!-- قسمت 11 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E11.mp4" target="_blank">
-                <span class="episode-number">11</span>
-                قسمت یازدهم
-            </a>
-        </div>
-
-        <!-- قسمت 12 -->
-        <div class="episode">
-            <a href="https://stream.farsicdn.co/serials/aban/Aban-E12.mp4" target="_blank">
-                <span class="episode-number">12</span>
-                قسمت دوازدهم
-            </a>
-        </div>
+  <div class="video-player-wrapper" id="playerBox">
+    <div class="player-header">
+      <span>پخش آنلاین</span>
+      <span class="center" id="videoTitle">فصل اول قسمت اول</span>
+      <span>سریال آبان</span>
     </div>
-
-    <div class="footer">
-        طراحی شده توسط علی قریشی  | تمامی حقوق محفوظ است
+    <video id="videoPlayer" controls></video>
+    <div class="video-meta">
+      <span id="videoMeta"></span>
+      <a id="downloadLink" href="#" download></a>
     </div>
+  </div>
+
+  <div class="footer">
+    طراحی شده توسط علی قریشی | تمامی حقوق محفوظ است
+    <div class="social">
+      جهت درخواست فیلم و سریال با ما در تماس باشید:
+      <br><br>
+      <a href="https://t.me/A_MassageVIP" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">تلگرام
+      </a>
+      <a href="https://instagram.com/A_MassagesVIP" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">اینستاگرام
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const episodes = [
+      { number: 1, time: '45:00', size: '350MB' },
+      { number: 2, time: '42:10', size: '340MB' },
+      { number: 3, time: '41:30', size: '345MB' },
+      { number: 4, time: '43:15', size: '355MB' },
+      { number: 5, time: '40:05', size: '320MB' },
+      { number: 6, time: '44:00', size: '360MB' },
+      { number: 7, time: '46:20', size: '370MB' },
+      { number: 8, time: '43:50', size: '350MB' },
+      { number: 9, time: '42:30', size: '340MB' },
+      { number: 10, time: '47:10', size: '380MB' },
+      { number: 11, time: '44:40', size: '355MB' },
+      { number: 12, time: '48:00', size: '390MB' }
+    ];
+
+    const faDigits = ['اول','دوم','سوم','چهارم','پنجم','ششم','هفتم','هشتم','نهم','دهم','یازدهم','دوازدهم'];
+
+    const episodeList = document.getElementById('episodeList');
+
+    episodes.forEach(ep => {
+      const div = document.createElement('div');
+      div.className = 'episode';
+      div.onclick = () => playEpisode(`فصل اول قسمت ${faDigits[ep.number - 1]}`, `https://stream.farsicdn.co/serials/aban/Aban-E${ep.number.toString().padStart(2, '0')}.mp4`, ep.time, ep.size, `قسمت ${faDigits[ep.number - 1]} از فصل اول`);
+      div.innerHTML = `
+        <div class="episode-title">قسمت ${faDigits[ep.number - 1]} پخش آنلاین</div>
+        <div class="episode-meta">مدت زمان: ${ep.time} | حجم: ${ep.size}</div>
+        <a href="https://stream.farsicdn.co/serials/aban/Aban-E${ep.number.toString().padStart(2, '0')}.mp4" download>دانلود قسمت ${faDigits[ep.number - 1]}</a>
+      `;
+      episodeList.appendChild(div);
+    });
+
+    function playEpisode(title, src, duration, size, downloadText) {
+      document.getElementById('videoTitle').innerText = title;
+      document.getElementById('videoMeta').innerText = `مدت زمان: ${duration} | حجم: ${size}`;
+      const dl = document.getElementById('downloadLink');
+      dl.href = src;
+      dl.innerText = `دانلود ${downloadText}`;
+      document.getElementById('videoPlayer').src = src;
+      document.getElementById('playerBox').classList.add('active');
+      document.getElementById('playerBox').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
 </body>
 </html>
